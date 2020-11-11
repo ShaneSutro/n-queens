@@ -79,31 +79,20 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      if (rowIndex === 'n') {
-        return;
-      }
       var sum = 0;
       for (var i = 0; i < this.attributes[rowIndex].length; i++) {
         sum += this.attributes[rowIndex][i];
       }
-      console.log(sum);
-      return sum >= 1; // fixme [0,0,0,1], [1,1,0,0]
+      return sum > 1; // fixme [0,0,0,1], [1,1,0,0]
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      // console.log(this);
-      // _.each(this.attributes, function(item, key, collection) {
-      //   console.log(item, key);
-      //   if (hasRowConflictAt(key)) {
-      //     return true;
-      //   }
-      // });
-      // for (var i = 0; i < this.attributes.length; i++) {
-      //   if (this.hasRowConflictAt(i)) {
-      //     return true;
-      //   }
-      // }
+      for (var i = 0; i < _.size(this.attributes) - 1; i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -113,13 +102,27 @@
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
-    hasColConflictAt: function(colIndex) {
-      return false; // fixme
+    hasColConflictAt: function(colIndex) { //colIndex = 0
+    //[r][c]
+    //[0][0], [1][0], [2][0], [3][0]
+    //[0][1], [1][1], [2][1], [3][1]
+    //[0][2], [1][2], [2][2], [3][2]
+    //[0][3], [1][3], [2][3], [3][3]
+      var sum = 0;
+      for (var row = 0; row < this.attributes[colIndex].length; row++) {
+        sum += this.attributes[row][colIndex];
+      }
+      return sum > 1; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      for (var j = 0; j < _.size(this.attributes) - 1; j++) {
+        if (this.hasColConflictAt(j)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
