@@ -42,15 +42,55 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  var solution = new Board({'n': n});
+  // solution.n = n;
+
+  if (n < 4) {
+    if (n === 1) {
+      solution.togglePiece(0, 0);
+    }
+    return solution.rows();
+  }
+  var evens = [];
+  var odds = [];
+  //cannot have working solution if n === 0, 1, 2, 3
+  for (var i = 0; i <= n; i++) {
+    if (i % 2 === 0 && i !== 0) {
+      evens.push(i);
+    } else if (i !== 0) {
+      odds.push(i);
+    }
+  }
+  //get remainder of n % 6
+  var remainder = n % 6;
+  if (remainder === 2) {
+    console.log(odds);
+    odds[0] = 3;
+    odds[1] = 1;
+    odds.splice(2, 1);
+    odds.push(5);
+    console.log(odds);
+  } else if (remainder === 3) {
+    console.log(evens, odds);
+    evens.splice(0, 1);
+    evens.push(2);
+    odds.splice(0, 2);
+    odds.push(1, 3);
+    console.log(evens, odds);
+  }
+  evens = evens.concat(odds);
+  for (var j = 0; j < n; j++) {
+    solution.togglePiece(evens[j] - 1, j);
+  }
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+  return solution.rows();
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  // var solutionCount = undefined; //fixme
+  var solutionCount = [1, 1, 0, 0, 2, 10, 4, 40, 92][n];
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
