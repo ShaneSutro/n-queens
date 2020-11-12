@@ -172,7 +172,6 @@
       var n = this.attributes[0].length;
       while (row < n && col >= 0) {
         if (this.attributes[row][col] === 1) {
-          console.log('true');
           return true;
         }
         //increment both by 1 until you reach the bottom or the right side of the board
